@@ -1,3 +1,4 @@
+
 // ============================================================
 // CMP1002 - Lab: Encapsulation and Invariants
 // Student Version - MainProgram.cpp
@@ -34,19 +35,23 @@ public:
     // Throw std::invalid_argument if value < -273.15
     explicit Temperature(double celsius) {
         // TODO: Validate and set celsius_
+        if (celsius < -273.15) {
+            throw invalid_argument("Temperature cannot be below absolute zero");
+        }
+        celsius_ = celsius;
     }
 
     // Getter: return the temperature in Celsius
     double getCelsius() const {
         // TODO: Implement
-        return 0.0;
+        return celsius_;
     }
 
     // Getter: return the temperature converted to Fahrenheit
     // Formula: F = C * 9/5 + 32
     double getFahrenheit() const {
         // TODO: Implement
-        return 0.0;
+        return celsius_ *9.0 / 5.0 + 32;
     }
 
     // Setter: update the temperature in Celsius
@@ -54,6 +59,10 @@ public:
     // Throw std::invalid_argument if value < -273.15
     void setCelsius(double celsius) {
         // TODO: Implement
+        if (celsius < -273.15) {
+            throw invalid_argument("Temperature cannot be below absolute zero");
+        }
+        celsius_ = celsius;
     }
 };
 
@@ -74,6 +83,9 @@ public:
     // Throw std::invalid_argument if owner is empty or balance < 0
     BankAccount(const string& owner, double initialBalance) {
         // TODO: Validate and set members
+        if (owner == "") {
+            throw invalid_argument("Owner cannot be empty");
+        }
     }
 
     // Getter: return the owner's name
@@ -99,7 +111,9 @@ public:
     // Throw std::runtime_error if insufficient funds
     void withdraw(double amount) {
         // TODO: Implement
-    }
+        if (amount <= 0){
+            throw runtime_error("Insufficient funds");
+        }
 
     // Transfer money from this account to another.
     // Throw std::invalid_argument if amount <= 0
@@ -123,12 +137,20 @@ private:
     // Helper: check if a string contains at least one digit
     static bool hasDigit(const string& s) {
         // TODO: Implement
+        for (char c : s){
+            if (c >= '0' && c <= '9'){
+                return true;
+            }
+        }
         return false;
     }
 
     // Helper: validate password against all rules
     static void validate(const string& pwd) {
         // TODO: Check length >= 8 and hasDigit
+        if (pwd.lenght()< 8){
+            throw invalid_argument("Password must be at least 8 characters");
+        }
         // Throw std::invalid_argument with descriptive message if invalid
     }
 
@@ -136,7 +158,7 @@ public:
     // Constructor: create a password.
     // Must pass validation.
     explicit Password(const string& pwd) {
-        // TODO: Validate and set password_
+        // TODO: Validate and set password
     }
 
     // Change password: old password must match, new must be valid.
